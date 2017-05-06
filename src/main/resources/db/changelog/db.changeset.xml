@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="b2b-member" author="ni">
+        <createTable tableName="member">
+            <column name="id" type="BIGINT" autoIncrement="true" startWith="1">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="gender" type="varchar(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phone" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="b2b-basket" author="ni">
+        <createTable tableName="basket">
+            <column name="id" type="BIGINT" autoIncrement="true" startWith="1">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="basket_name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="basket_desc" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="member_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="b2b-basket-product" author="ni">
+        <createTable tableName="basket_product">
+            <column name="id" type="BIGINT" autoIncrement="true" startWith="1">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="basket_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="product_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="product_qnty" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="b2b-order-basket" author="ni">
+        <createTable tableName="basket_order">
+            <column name="id" type="BIGINT" autoIncrement="true" startWith="1">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="basket_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="vat_no" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- add foreign key -->
+    <changeSet author="ni" id="addForeignKeyConstraint1">
+        <addForeignKeyConstraint baseColumnNames="member_id"
+                                 baseTableName="basket"
+                                 constraintName="fk_basket_member"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="member"
+                                 referencesUniqueColumn="false"/>
+    </changeSet>
+
+    <changeSet author="ni" id="addForeignKeyConstraint2">
+        <addForeignKeyConstraint baseColumnNames="basket_id"
+                                 baseTableName="basket_product"
+                                 constraintName="fk_basket_product"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="basket"
+                                 referencesUniqueColumn="false"/>
+    </changeSet>
+
+    <changeSet author="ni" id="addForeignKeyConstraint3">
+        <addForeignKeyConstraint baseColumnNames="basket_id"
+                                 baseTableName="basket_order"
+                                 constraintName="fk_basket_order"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="basket"
+                                 referencesUniqueColumn="false"/>
+    </changeSet>
+
+    <changeSet author="ni" id="insert-member">
+        <insert catalogName="b2b"
+                schemaName="public"
+                tableName="member">
+            <column name="name" type="varchar(255)" value="dummy user"/>
+            <column name="email" type="varchar(255)" value="dummy@mail.com"/>
+            <column name="gender" type="varchar(255)" value="F"/>
+            <column name="phone" type="varchar(255)" value="0812345678"/>
+        </insert>
+        <insert catalogName="b2b"
+                schemaName="public"
+                tableName="member">
+            <column name="name" type="varchar(255)" value="dummy user 1"/>
+            <column name="email" type="varchar(255)" value="dummy1@mail.com"/>
+            <column name="gender" type="varchar(255)" value="M"/>
+            <column name="phone" type="varchar(255)" value="0812345679"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>
