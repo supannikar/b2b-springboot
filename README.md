@@ -1,2 +1,2 @@
-# b2b-springboot-
+# b2b-springboot
 B2B Order Service
