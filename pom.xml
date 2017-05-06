@@ -98,6 +98,27 @@
             <version>19.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>no.api.pantheon</groupId>
+            <artifactId>pantheon-core</artifactId>
+            <version>3.2.6</version>
+        </dependency>
+        <dependency>
+            <groupId>no.api.pantheon</groupId>
+            <artifactId>pantheon-logging</artifactId>
+            <version>3.2.6</version>
+        </dependency>
+        <dependency>
+            <groupId>no.api.pantheon</groupId>
+            <artifactId>pantheon-metric</artifactId>
+            <version>3.2.6</version>
+        </dependency>
+        <dependency>
+            <groupId>no.api.pantheon</groupId>
+            <artifactId>pantheon-tracing</artifactId>
+            <version>3.2.6</version>
+        </dependency>
+
         <!-- == Jersey == - in order to keep the same version of the libraries -->
         <dependency>
             <groupId>com.sun.jersey</groupId>

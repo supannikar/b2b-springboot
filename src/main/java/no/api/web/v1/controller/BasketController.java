@@ -44,14 +44,6 @@ public class BasketController {
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity create(@ApiBodyObject @RequestBody @Valid BasketTransport basketTransport) {
 
-//        BasketModel basketModel = new BasketModel();
-//        basketModel.setBasketName(basketTransport.getBasketName());
-//        basketModel.setBasketDesc(basketTransport.getBasketDesc());
-//        basketModel.setMemberId(basketTransport.getMemberId());
-//        if(basketTransport.getBasketProductTransports() != null){
-//            basketModel.setBasketProductModel(new BasketProductRequestMapper().map(basketTransport.getBasketProductTransports()));
-//        }
-
         BasketModel basketModel = new BasketRequestMapper().map(basketTransport);
         BasketModel saveBasket = basketService.save(basketModel);
         if(basketTransport.getBasketProductTransports().size() > 0){
@@ -113,7 +105,7 @@ public class BasketController {
 
         BasketModel model = basketService.findById(id);
         if(model == null){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         List<BasketProductModel> basketProductModels = basketProductService.listProductByBasketId(model.getId());

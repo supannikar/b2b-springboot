@@ -1,16 +1,26 @@
 package no.api.config;
 
+import com.google.common.primitives.Ints;
 import no.api.service.BasketOrderService;
 import no.api.service.BasketProductService;
 import no.api.service.BasketService;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
+import no.api.pantheon.web.filter.CORSFilter;
 
+import javax.servlet.DispatcherType;
 import java.nio.charset.Charset;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 //import org.springframework.hateoas.config.EnableHypermediaSupport;
 
@@ -39,21 +49,21 @@ public class MainConfiguration {
 //    }
 
 
-//    @Bean
-//    public FilterRegistrationBean corsFilterRegistrationBean() {
-//        FilterRegistrationBean registrationBean = new FilterRegistrationBean();
-//        registrationBean.setFilter(new CORSFilter());
-//        registrationBean.setName("CORS");
-//        registrationBean.setDispatcherTypes(EnumSet.allOf(DispatcherType.class));
-//        registrationBean.setMatchAfter(true);
-//        registrationBean.setInitParameters(new HashMap<String, String>() {{
-//            put("Access-Control-Allow-Origin", "*");
-//            put("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//        }});
-//        registrationBean.setUrlPatterns(Collections.singletonList("*"));
-//
-//        return registrationBean;
-//    }
+    @Bean
+    public FilterRegistrationBean corsFilterRegistrationBean() {
+        FilterRegistrationBean registrationBean = new FilterRegistrationBean();
+        registrationBean.setFilter(new CORSFilter());
+        registrationBean.setName("CORS");
+        registrationBean.setDispatcherTypes(EnumSet.allOf(DispatcherType.class));
+        registrationBean.setMatchAfter(true);
+        registrationBean.setInitParameters(new HashMap<String, String>() {{
+            put("Access-Control-Allow-Origin", "*");
+            put("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        }});
+        registrationBean.setUrlPatterns(Collections.singletonList("*"));
+
+        return registrationBean;
+    }
 
 //    @Bean
 //    public FreeMarkerConfigurationFactory freeMarkerConfigurationFactory(){
@@ -81,6 +91,19 @@ public class MainConfiguration {
 //    public GroupController groupController(){
 //        return new GroupController();
 //    }
+
+    @Bean
+    public RestTemplate restTemplate() {
+
+        HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
+        factory.setReadTimeout(Ints.checkedCast(TimeUnit.SECONDS.toMillis(30)));
+        factory.setConnectTimeout(Ints.checkedCast(TimeUnit.SECONDS.toMillis(30)));
+        RestTemplate restTemplate = new RestTemplate(factory);
+        restTemplate.getMessageConverters()
+                .add(0, new StringHttpMessageConverter(Charset.forName("UTF-8")));
+
+        return restTemplate;
+    }
 
     @Bean
     public BasketProductService basketProductService(){
