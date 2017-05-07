@@ -58,15 +58,15 @@ Architecture Setup
 
 **Step for running with jar file**
 
-1. java -jar target/b2b-0.0.1-SNAPSHOT.jar
+ - java -jar target/b2b-0.0.1-SNAPSHOT.jar
 
 The API will be run on port 8092: 
 
- **Basket API**
-  - http://localhost:8092/api/b2b/v1/baskets
+ - Basket API
+   - http://localhost:8092/api/b2b/v1/baskets
  
- **Basket Order API**
-  - http://localhost:8092/api/b2b/v1/orders
+ - Basket Order API
+   - http://localhost:8092/api/b2b/v1/orders
  
 And also we've implement RestFul API documentation. It will be run on this link: http://localhost:8092/api/b2b/v1/docs
 
