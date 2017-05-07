@@ -4,15 +4,22 @@ Stack: Java
 Framework: SpringBoot
 ---
 
-Todo API
+B2N Order Service API
 =========
 
-RESTFul API Create/Update and Delete for todo. It's including:
+RESTFul API for simple shopping basket for transactions between companies. It's including:
 
+**Basket API**
  - id : Todo id
  - subject : Subject of todo
  - detail : The detail of todo
  - status : Status of todo. We prefer 2 statuses (Done and Pending)
+
+ **Basket Order API**
+  - id : Todo id
+  - subject : Subject of todo
+  - detail : The detail of todo
+  - status : Status of todo. We prefer 2 statuses (Done and Pending)
 
 Database setup
 --------------------------------
