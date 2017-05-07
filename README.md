@@ -10,16 +10,21 @@ B2N Order Service API
 RESTFul API for simple shopping basket for transactions between companies. It's including:
 
 **Basket API**
- - id : Todo id
- - subject : Subject of todo
- - detail : The detail of todo
- - status : Status of todo. We prefer 2 statuses (Done and Pending)
+ - id: Basket id,
+ - basket_name: Basket name,
+ - basket_desc: Basket description,
+ - member_id: Member id,
+ - basket_product: 
+   - id: Basket product id,
+   - basket_id: Basket id,
+   - product_id: Product id,
+   - product_qnty: Product quantity
 
- **Basket Order API**
-  - id : Todo id
-  - subject : Subject of todo
-  - detail : The detail of todo
-  - status : Status of todo. We prefer 2 statuses (Done and Pending)
+**Basket Order API**
+ - id: Order id,
+ - basket_id: Basket id,
+ - vat_no: Valid vat number
+  
 
 Database setup
 --------------------------------
@@ -27,11 +32,11 @@ This API we are using MySQL as database and also liquibase are helping for creat
 
 Run this command for creating database:
 
-```create database todo character set utf8;```
+```create database b2b character set utf8;```
 
-```grant all privileges on todo.* to todo identified by 'password';```
+```grant all privileges on b2b.* to b2b identified by 'password';```
 
-```grant all privileges on todo.* to todo@'localhost' identified by 'password';```
+```grant all privileges on b2b.* to b2b@'localhost' identified by 'password';```
 
 ```FLUSH PRIVILEGES;```
 
@@ -45,7 +50,7 @@ Architecture Setup
 
 **Step for running project**
 
-1. Clone project from repository: git clone git@github.com:supannikar/nitest.git
+1. Clone project from repository: https://github.com/supannikar/b2b-springboot.git
 
 2. Build project: mvn clean install
 
@@ -53,49 +58,112 @@ Architecture Setup
 
 **Step for running with jar file**
 
-1. java -jar target/nitest-0.0.1-SNAPSHOT.jar
+1. java -jar target/b2b-0.0.1-SNAPSHOT.jar
 
-The API will be run on port 8090: http://localhost:8090/api/nitest/v1/todos
-And also we've implement RestFul API documentation. It will be run on this link: http://localhost:8090/api/nitest/v1/docs
+The API will be run on port 8092: 
+
+ **Basket API**
+  - http://localhost:8092/api/b2b/v1/baskets
+ 
+ **Basket Order API**
+  - http://localhost:8092/api/b2b/v1/orders
+ 
+And also we've implement RestFul API documentation. It will be run on this link: http://localhost:8092/api/b2b/v1/docs
 
 Description about API documentation
 --------------------------------
-- Create new todo
+**Basket API**
+- Create new basket
 
-```POST: http://localhost:8090/api/nitest/v1/todos```
+```POST: http://localhost:8090/api/b2b/v1/baskets```
 
 Request Body will provide seem like this:
 ```json
 {
-    "id":null,
-    "subject":"subject of todo",
-    "detail":"detail of todo",
-    "status":"Pending"
+  "id": null,
+  "basket_name": "basket name",
+  "basket_desc": "basket desc",
+  "member_id": 1,
+  "basket_product": [
+    {
+      "id": null,
+      "basket_id": null,
+      "product_id": 1,
+      "product_qnty": 10
+    }
+  ]
 }
 ```
 
 - Get all list
 
-```GET: http://localhost:8090/api/nitest/v1/todos```
+```GET: http://localhost:8090/api/b2b/v1/baskets```
 
-- Get todo by id
+- Get basket by id
 
-```GET: http://localhost:8090/api/nitest/v1/todos/{id}```
+```GET: http://localhost:8090/api/b2b/v1/baskets/{id}```
 
-- Update existing todo by id
+- Update existing basket by id
 
-```PUT: http://localhost:8090/api/nitest/v1/todos/{id}```
+```PUT: http://localhost:8090/api/b2b/v1/todos/{id}```
 
 JSON Request Body will provide same as create nw todo:
 ```json
 {
-    "id":1,
-    "subject":"subject of todo",
-    "detail":"detail of todo",
-    "status":"Pending"
+  "id": 1,
+  "basket_name": "basket name",
+  "basket_desc": "basket desc",
+  "member_id": 1,
+  "basket_product": [
+    {
+      "id": 1,
+      "basket_id": 1,
+      "product_id": 1,
+      "product_qnty": 10
+    }
+  ]
 }
 ```
 
 - Delete todo by id
 
-```DELETE: http://localhost:8090/api/nitest/v1/todos/{id}```
+```DELETE: http://localhost:8090/api/b2b/v1/baskets/{id}```
+
+**Basket Order API**
+- Create new order
+
+```POST: http://localhost:8090/api/b2b/v1/orders```
+
+Request Body will provide seem like this:
+```json
+{
+  "id": null,
+  "basket_id": 1,
+  "vat_no": "LU26375245"
+}
+```
+
+- Get all list
+
+```GET: http://localhost:8090/api/b2b/v1/orders```
+
+- Get order by id
+
+```GET: http://localhost:8090/api/b2b/v1/orders/{id}```
+
+- Update existing order by id
+
+```PUT: http://localhost:8090/api/b2b/v1/orders/{id}```
+
+JSON Request Body will provide same as create nw todo:
+```json
+{
+  "id": 2,
+  "basket_id": 1,
+  "vat_no": "LU26375245"
+}
+```
+
+- Delete todo by id
+
+```DELETE: http://localhost:8090/api/b2b/v1/orders/{id}```
